@@ -43,7 +43,7 @@
   padding: 20px 25px;
   border-radius: 4px;
   margin: 0 0 25px 0;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   border: 1px solid #dcdcde;
 }
 
@@ -178,7 +178,6 @@
    ============================================= */
 .vantagewp-actions {
   margin: 30px 0 10px 0;
-  text-align: right;
 }
 
 #vantagewp-edit-profile {
@@ -207,31 +206,95 @@
   .vantagewp-admin-page {
     padding: 15px;
   }
-  
+
   .vantagewp-section {
     padding: 15px;
   }
-  
+
   .vantagewp-data-table th,
   .vantagewp-data-table td {
     display: block;
     width: 100%;
     padding: 8px 0;
   }
-  
+
   .vantagewp-data-table th {
     padding-top: 15px;
     padding-bottom: 5px;
     border-bottom: none;
     color: #1d2327;
   }
-  
+
   .vantagewp-data-table tr {
     border-bottom: 1px solid #dcdcde;
   }
-  
+
   .vantagewp-data-table input[type="text"],
   .vantagewp-data-table input[type="email"] {
     max-width: 100%;
   }
+}
+
+/* Estilos para la tabla de suscripciones */
+.vantagewp-subscriptions {
+    margin: 20px 0;
+}
+
+.vantagewp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.vantagewp-table th, .vantagewp-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.vantagewp-table th {
+    background-color: #f8f8f8;
+    font-weight: 600;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-badge.active {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-badge.pending, .status-badge.on-hold {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-badge.cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.vantagewp-alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.vantagewp-alert.info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+.vantagewp-alert.warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
 }
