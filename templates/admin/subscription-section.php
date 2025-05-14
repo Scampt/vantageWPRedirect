@@ -1,78 +1,32 @@
-<?php
-/**
- * Plantilla de sección de suscripciones - Versión corregida
- * Muestra suscripciones para admin/clientes con sistema de fallback
- */
-?>
-
-<div class="vantagewp-subscription-section">
-    <?php if ($is_admin) : ?>
-        <div class="admin-notice">
-            <h2><span class="dashicons dashicons-admin-settings"></span> Panel de Administración de Suscripciones</h2>
-            <div class="notice notice-info">
-                <p>Tienes acceso completo a todas las funciones administrativas.</p>
-            </div>
+<div class="vantagewp-section">
+    <h2><span class="dashicons dashicons-cart"></span> Mi Suscripción</h2>
+    
+    <?php if ($is_admin): ?>
+        <div class="vantagewp-notice info">
+            <p>Cuentas con acceso completo como administrador.</p>
         </div>
-    <?php endif; ?>
-
-    <div class="subscription-container">
-        <?php if (!empty($subscription_details)) : ?>
-            <!-- Tarjeta de Suscripción -->
-            <div class="subscription-card">
-                <div class="card-header">
-                    <h3><?php echo esc_html($subscription_details['plan_name']); ?></h3>
-                    <span class="status-badge status-<?php echo esc_attr($subscription_details['status_class']); ?>">
+    <?php elseif (!$subscriptions_active): ?>
+        <div class="vantagewp-notice error">
+            <p>Subscriptions for WooCommerce no está activo. Contacta al administrador.</p>
+        </div>
+    <?php elseif (empty($subscription_details)): ?>
+        <div class="vantagewp-notice warning">
+            <p>No tienes una suscripción activa. <a href="<?php echo esc_url(get_permalink(/* ID de página de planes */)); ?>" target="_blank">Adquirir plan</a></p>
+        </div>
+    <?php else: ?>
+        <table class="vantagewp-data-table">
+            <tr><th>Plan:</th><td><?php echo esc_html($subscription_details['plan_name']); ?></td></tr>
+            <tr><th>Tipo:</th><td><?php echo esc_html($subscription_details['billing_period']); ?></td></tr>
+            <tr>
+                <th>Estado:</th>
+                <td>
+                    <span class="vantagewp-status <?php echo esc_attr($subscription_details['status_class']); ?>">
                         <?php echo esc_html($subscription_details['status']); ?>
                     </span>
-                </div>
-
-                <div class="card-body">
-                    <div class="subscription-row">
-                        <div class="row-label">ID Suscripción:</div>
-                        <div class="row-value">#<?php echo esc_html($subscription_details['subscription_id']); ?></div>
-                    </div>
-                    
-                    <div class="subscription-row">
-                        <div class="row-label">Próximo Pago:</div>
-                        <div class="row-value"><?php echo esc_html($subscription_details['next_payment']); ?></div>
-                    </div>
-                    
-                    <div class="subscription-row">
-                        <div class="row-label">Ciclo de Facturación:</div>
-                        <div class="row-value"><?php echo esc_html($subscription_details['billing_period']); ?></div>
-                    </div>
-                </div>
-
-                <?php if ($is_admin && !empty($subscription_details['raw_data'])) : ?>
-                    <div class="admin-debug-info">
-                        <h4><span class="dashicons dashicons-info"></span> Datos Técnicos</h4>
-                        <textarea readonly class="debug-textarea"><?php 
-                            echo esc_textarea(print_r($subscription_details['raw_data'], true)); 
-                        ?></textarea>
-                    </div>
-                <?php endif; ?>
-            </div>
-
-        <?php elseif ($subscriptions_active) : ?>
-            <!-- Sin suscripciones activas -->
-            <div class="no-subscription">
-                <div class="notice notice-warning">
-                    <h3><span class="dashicons dashicons-warning"></span> No tienes suscripciones activas</h3>
-                    <p>Actualmente no tienes ninguna suscripción activa asociada a tu cuenta.</p>
-                    <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" class="button button-primary">
-                        Ver planes disponibles
-                    </a>
-                </div>
-            </div>
-        <?php else : ?>
-            <!-- Sistema de suscripciones no disponible -->
-            <div class="system-unavailable">
-                <div class="notice notice-error">
-                    <h3><span class="dashicons dashicons-dismiss"></span> Sistema no disponible</h3>
-                    <p>El sistema de suscripciones no está disponible en este momento.</p>
-                    <p>Por favor, intenta nuevamente más tarde o contacta al soporte técnico.</p>
-                </div>
-            </div>
-        <?php endif; ?>
-    </div>
+                </td>
+            </tr>
+            <tr><th>Próximo pago:</th><td><?php echo esc_html($subscription_details['next_payment']); ?></td></tr>
+            <tr><th>ID Suscripción:</th><td><?php echo esc_html($subscription_details['subscription_id']); ?></td></tr>
+        </table>
+    <?php endif; ?>
 </div>
