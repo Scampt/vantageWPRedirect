@@ -1,0 +1,18 @@
+# WordPress
+/wp-content/
+/node_modules/
+/vendor/
+.DS_Store
+*.log
+*.sql
+*.zip
+*.tar.gz
+
+# Entorno de desarrollo
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Archivos de sistema
+Thumbs.db

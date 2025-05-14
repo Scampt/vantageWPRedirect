@@ -1,0 +1,86 @@
+/* Botón de conexión Google */
+#vantagewp-connect-google {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #4285f4;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#vantagewp-connect-google:hover {
+  background: #3367d6;
+}
+
+#vantagewp-connect-google .dashicons {
+  vertical-align: middle;
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+/* Botón de desconexión Google */
+#vantagewp-revoke-google {
+  background: #fdf0f0;
+  color: #d63638;
+  border: 1px solid #d63638;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#vantagewp-revoke-google:hover {
+  background: #d63638;
+  color: white;
+}
+
+/* Contenedor de notificaciones */
+.vantagewp-notice.success {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Botón de redirección */
+.vantage-redirect-button {
+  display: inline-block;
+  background: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.vantage-redirect-button:hover {
+  background: #3d8b40;
+}
+
+/* Contenedor de autenticación */
+.vantage-auth-container {
+  text-align: center;
+  margin: 20px 0;
+  padding: 20px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.vantage-auth-container h3 {
+  margin-top: 0;
+  color: #2271b1;
+}
+
+.vantage-auth-container p {
+  margin-bottom: 15px;
+  color: #555;
+}

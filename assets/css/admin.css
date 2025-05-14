@@ -1,0 +1,237 @@
+/* =============================================
+   ESTRUCTURA PRINCIPAL
+   ============================================= */
+.vantagewp-admin-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f1f1f1;
+}
+
+.main-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 25px 0;
+  padding: 0 0 15px 0;
+  color: #1d2327;
+  font-size: 23px;
+  font-weight: 500;
+  border-bottom: 1px solid #ddd;
+}
+
+.main-title .dashicons {
+  color: #2271b1;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.vantagewp-welcome-msg {
+  font-size: 15px;
+  font-weight: 500;
+  margin: -15px 0 25px 0;
+  color: #646970;
+}
+
+/* =============================================
+   SECCIONES
+   ============================================= */
+.vantagewp-section {
+  max-width: 800px;
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 4px;
+  margin: 0 0 25px 0;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+  border: 1px solid #dcdcde;
+}
+
+.vantagewp-section h2 {
+  margin: 0 0 15px 0;
+  padding: 0 0 12px 0;
+  color: #1d2327;
+  font-size: 18px;
+  font-weight: 500;
+  border-bottom: 1px solid #dcdcde;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vantagewp-section h2 .dashicons {
+  color: #2271b1;
+  font-size: 20px;
+}
+
+/* =============================================
+   TABLAS DE DATOS
+   ============================================= */
+.vantagewp-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 5px 0 15px 0;
+}
+
+.vantagewp-data-table th,
+.vantagewp-data-table td {
+  padding: 12px 0;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.vantagewp-data-table th {
+  width: 180px;
+  font-weight: 500;
+  color: #646970;
+}
+
+.vantagewp-data-table tr:last-child th,
+.vantagewp-data-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* =============================================
+   FORMULARIOS
+   ============================================= */
+.vantagewp-data-table input[type="text"],
+.vantagewp-data-table input[type="email"] {
+  width: 100%;
+  max-width: 400px;
+  padding: 6px 10px;
+  border: 1px solid #8c8f94;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.vantagewp-data-table input:focus {
+  border-color: #2271b1;
+  box-shadow: 0 0 0 1px #2271b1;
+  outline: none;
+}
+
+.vantagewp-form-actions {
+  margin: 20px 0 5px 0;
+  text-align: right;
+}
+
+/* =============================================
+   ESTADOS Y NOTIFICACIONES
+   ============================================= */
+.vantagewp-status {
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-weight: 500;
+  font-size: 13px;
+  display: inline-block;
+  line-height: 1;
+}
+
+.vantagewp-status.active {
+  background: #edfaef;
+  color: #1d7a44;
+  border: 1px solid #1d7a44;
+}
+
+.vantagewp-status.pending {
+  background: #fef7f1;
+  color: #d54e21;
+  border: 1px solid #d54e21;
+}
+
+.vantagewp-notice {
+  padding: 12px 15px;
+  border-radius: 4px;
+  margin: 0 0 15px 0;
+  border-left: 4px solid;
+  font-size: 14px;
+}
+
+.vantagewp-notice.info {
+  background: #f0f6ff;
+  color: #1d2327;
+  border-left-color: #72aee6;
+}
+
+.vantagewp-notice.error {
+  background: #fcf0f1;
+  color: #1d2327;
+  border-left-color: #d63638;
+}
+
+.vantagewp-notice.warning {
+  background: #fff8e5;
+  color: #1d2327;
+  border-left-color: #dba617;
+}
+
+.vantagewp-notice.success {
+  background: #edfaef;
+  color: #1d2327;
+  border-left-color: #1d7a44;
+}
+
+/* =============================================
+   BOTONES Y ACCIONES
+   ============================================= */
+.vantagewp-actions {
+  margin: 30px 0 10px 0;
+  text-align: right;
+}
+
+#vantagewp-edit-profile {
+  margin-left: 10px;
+  padding: 0 10px;
+  height: 30px;
+}
+
+#vantagewp-edit-profile .dashicons {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* =============================================
+   TRANSICIONES Y EFECTOS
+   ============================================= */
+#vantagewp-profile-view,
+#vantagewp-profile-form {
+  transition: opacity 0.3s ease, height 0.3s ease;
+}
+
+/* =============================================
+   DISEÑO RESPONSIVE
+   ============================================= */
+@media (max-width: 782px) {
+  .vantagewp-admin-page {
+    padding: 15px;
+  }
+  
+  .vantagewp-section {
+    padding: 15px;
+  }
+  
+  .vantagewp-data-table th,
+  .vantagewp-data-table td {
+    display: block;
+    width: 100%;
+    padding: 8px 0;
+  }
+  
+  .vantagewp-data-table th {
+    padding-top: 15px;
+    padding-bottom: 5px;
+    border-bottom: none;
+    color: #1d2327;
+  }
+  
+  .vantagewp-data-table tr {
+    border-bottom: 1px solid #dcdcde;
+  }
+  
+  .vantagewp-data-table input[type="text"],
+  .vantagewp-data-table input[type="email"] {
+    max-width: 100%;
+  }
+}
