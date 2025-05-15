@@ -34,6 +34,84 @@
   color: #646970;
 }
 
+/* Subscription Section Styles */
+.vantage-subscriptions-container {
+    max-width: 100%;
+    margin: 20px 0;
+    padding: 20px;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.vantage-section-title {
+    margin-bottom: 20px;
+    color: #23282d;
+}
+
+.vantage-subscriptions-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.vantage-subscription-card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    background: #f9f9f9;
+}
+
+.vantage-subscription-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.vantage-subscription-status {
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.vantage-subscription-status.active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.vantage-subscription-status.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.vantage-subscription-status.cancelled {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.vantage-subscription-details p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.vantage-loading,
+.vantage-error,
+.vantage-no-subscriptions {
+    padding: 15px;
+    text-align: center;
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+.vantage-error {
+    color: #721c24;
+    background: #f8d7da;
+}
+
 /* =============================================
    SECCIONES
    ============================================= */
@@ -233,5 +311,6 @@
   .vantagewp-data-table input[type="email"] {
     max-width: 100%;
   }
+  
 }
 

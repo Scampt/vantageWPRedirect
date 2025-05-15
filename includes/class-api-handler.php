@@ -67,6 +67,20 @@ class VantageWP_API_Handler {
         return $formatted;
     }
 
+    public function get_subscriptions($user_id) {
+        $response = wp_remote_get("https://tu-api.com/subscriptions?user_id=".$user_id, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->get_api_token()
+            ]
+        ]);
+        
+        if (is_wp_error($response)) {
+            return $response;
+        }
+        
+        return json_decode(wp_remote_retrieve_body($response), true);
+    }
+
     private function get_product_name($subscription) {
         $items = $subscription->get_items();
         $names = [];

@@ -1,8 +1,7 @@
 <?php
 class VantageWP_Admin_Panel {
     public function __construct() {
-        add_action('admin_menu', [$this, 'add_admin_menu_item']);
-        add_action('admin_enqueue_scripts', [$this, 'load_admin_assets']);
+
     }
 
     public function add_admin_menu_item() {
@@ -13,42 +12,46 @@ class VantageWP_Admin_Panel {
             'vantagewp-dashboard',
             [$this, 'render_admin_page'],
             'dashicons-google',
-            6
         );
     }
 
     public function render_admin_page() {
         if (!current_user_can('manage_options')) {
-            wp_die('Acceso no autorizado.');
-        }
+                wp_die('Acceso no autorizado.');
+            }
 
-        // Cargar plantilla de encabezado
-        $this->load_template('shared/header');
+            $user_id = get_current_user_id();
+            
+            // Obtener suscripciones
+            $subscription_details = $this->get_user_subscriptions($user_id);
+            error_log('Datos antes de pasar al template: ' . print_r($subscription_details, true));
+            
+            // DEBUG TEMPORAL - Inicio
+            if (empty($subscription_details)) {
+                error_log('¿Por qué está vacío? User ID: '.$user_id);
+                error_log('API Response: '.print_r($this->get_user_subscriptions($user_id), true));
+            }
+            // DEBUG TEMPORAL - Fin
 
-        $user_id = get_current_user_id();
-        $user_data = get_userdata($user_id);
+            // Cargar plantilla de encabezado
+            $this->load_template('shared/header');
 
-        // Sección de perfil
-        $this->load_template('admin/profile-section', [
-            'user_data' => $user_data
-        ]);
+            // Sección de perfil
+            $this->load_template('admin/profile-section', [
+                'user_data' => get_userdata($user_id)
+            ]);
 
-        // Sección de Google Auth
-        $this->load_template('admin/google-auth-section', [
-            'user_id' => $user_id
-        ]);
+            // Sección de Google Auth
+            $this->load_template('admin/google-auth-section', [
+                'user_id' => $user_id
+            ]);
 
-        // Sección de suscripción
-        $subscription_details = $this->get_subscription_details(
-            $user_id, 
-            VANTAGE_VALID_PRODUCT_IDS
-        );
-
-        $this->load_template('admin/subscription-section', [
-            'is_admin' => current_user_can('administrator'),
-            'subscriptions_active' => $this->is_sfw_active(),
-            'subscription_details' => $subscription_details
-        ]);
+            // Sección de suscripción - Pasar los datos CORRECTAMENTE
+            $this->load_template('admin/subscription-section', [
+                'subscription_details' => $subscription_details ?: [],
+                'is_admin' => current_user_can('administrator'),
+                'subscriptions_active' => $this->is_sfw_active()
+            ]);
 
         // Botón de acción
         if (current_user_can('administrator') || !empty($subscription_details)) {
@@ -71,37 +74,63 @@ class VantageWP_Admin_Panel {
     }
 
     public function load_admin_assets($hook) {
-        if ('toplevel_page_vantagewp-dashboard' !== $hook) {
-                return;
-            }
+            if ('toplevel_page_vantagewp-dashboard' !== $hook) {
+            return;
+        }
 
-            // Usando VANTAGE_PLUGIN_URL para asegurar la ruta correcta
-            $admin_css_url = VANTAGE_PLUGIN_URL . 'assets/css/admin.css';
-            
-            // Forzar recarga del caché durante desarrollo
-            $version = WP_DEBUG ? time() : '1.0';
-            
-            wp_enqueue_style(
-                'vantagewp-admin-css',
-                $admin_css_url,
-                array(),
-                $version
-            );
+        wp_enqueue_style(
+            'vantagewp-admin-css',
+            VANTAGE_PLUGIN_URL . 'assets/css/admin.css',
+            array(),
+            WP_DEBUG ? time() : '1.0'
+        );
 
-            wp_enqueue_script(
-                'vantagewp-admin-js',
-                VANTAGE_PLUGIN_URL . 'assets/js/admin.js',
-                array('jquery'),
-                $version,
-                true
-            );
+        wp_enqueue_script(
+            'vantagewp-admin-js',
+            VANTAGE_PLUGIN_URL . 'assets/js/admin.js',
+            array('jquery'),
+            WP_DEBUG ? time() : '1.0',
+            true
+        );
 
-            // Localización de datos
-            wp_localize_script('vantagewp-admin-js', 'vantagewp_ajax_data', [
-                'nonce' => wp_create_nonce('vantagewp_redirect_nonce'),
-                'is_admin' => current_user_can('administrator'),
-                'ajax_url' => admin_url('admin-ajax.php')
-            ]);
+        // Localización de datos para AJAX
+        wp_localize_script('vantagewp-admin-js', 'vantagewp_ajax_data', [
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('vantagewp_ajax_nonce'),
+            'user_id' => get_current_user_id()
+        ]);
+    }
+
+    public function display_subscription_section() {
+        $user_id = get_current_user_id();
+        $subscriptions = $this->get_user_subscriptions($user_id);
+        
+        // Debug
+        error_log('Subscription data for user '.$user_id.': ' . print_r($subscriptions, true));
+        
+        // Incluir la plantilla con los datos
+        include_once plugin_dir_path(dirname(__FILE__, 2)) . 'templates/admin/subscription-section.php';
+    }
+
+    public function init() {
+        add_action('admin_menu', [$this, 'add_admin_menu_item']);
+        add_action('admin_enqueue_scripts', [$this, 'load_admin_assets']);
+        add_action('wp_ajax_vantage_get_subscriptions', [$this, 'handle_ajax_subscriptions']);
+    }
+
+    public function handle_ajax_subscriptions() {
+        check_ajax_referer('vantagewp_ajax_nonce', 'security');
+
+        $user_id = isset($_POST['user_id']) ? absint($_POST['user_id']) : get_current_user_id();
+        $subscriptions = $this->get_user_subscriptions($user_id);
+
+        ob_start();
+        $this->load_template('admin/subscription-section', [
+            'subscription_details' => $subscription_details
+        ]);
+        $html = ob_get_clean();
+
+        wp_send_json_success($html);
     }
 
      // Métodos para manejo de suscripciones

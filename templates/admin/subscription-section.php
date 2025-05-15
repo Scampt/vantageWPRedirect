@@ -1,32 +1,31 @@
-<div class="vantagewp-section">
-    <h2><span class="dashicons dashicons-cart"></span> Mi Suscripción</h2>
+<div class="vantage-subscriptions-container">
+    <h2 class="vantage-section-title"><?php esc_html_e('Your Subscriptions', 'vantage-wp-login'); ?></h2>
     
-    <?php if ($is_admin): ?>
-        <div class="vantagewp-notice info">
-            <p>Cuentas con acceso completo como administrador.</p>
+    <?php 
+    error_log('Datos recibidos en template: ' . print_r($subscription_details, true));
+    
+    if (!empty($subscription_details) && is_array($subscription_details)) : ?>
+        <div class="vantage-subscriptions-list">
+            <?php foreach ($subscription_details as $sub) : ?>
+                <div class="vantage-subscription-card">
+                    <div class="vantage-subscription-header">
+                        <h3><?php echo esc_html($sub['product_name'] ?? 'Unknown Product'); ?></h3>
+                        <span class="vantage-subscription-status <?php echo esc_attr($sub['status'] ?? ''); ?>">
+                            <?php echo esc_html($sub['status'] ?? 'N/A'); ?>
+                        </span>
+                    </div>
+                    
+                    <div class="vantage-subscription-details">
+                        <p><strong>ID:</strong> <?php echo esc_html($sub['subscription_id'] ?? 'N/A'); ?></p>
+                        <p><strong>Próximo pago:</strong> <?php echo esc_html($sub['next_payment_date'] ?? 'N/A'); ?></p>
+                        <p><strong>Monto:</strong> <?php echo isset($sub['recurring_amount']) ? wc_price($sub['recurring_amount']) : 'N/A'; ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    <?php elseif (!$subscriptions_active): ?>
-        <div class="vantagewp-notice error">
-            <p>Subscriptions for WooCommerce no está activo. Contacta al administrador.</p>
+    <?php else : ?>
+        <div class="vantage-no-subscriptions">
+            <p><?php esc_html_e('No active subscriptions found.', 'vantage-wp-login'); ?></p>
         </div>
-    <?php elseif (empty($subscription_details)): ?>
-        <div class="vantagewp-notice warning">
-            <p>No tienes una suscripción activa. <a href="<?php echo esc_url(get_permalink(/* ID de página de planes */)); ?>" target="_blank">Adquirir plan</a></p>
-        </div>
-    <?php else: ?>
-        <table class="vantagewp-data-table">
-            <tr><th>Plan:</th><td><?php echo esc_html($subscription_details['plan_name']); ?></td></tr>
-            <tr><th>Tipo:</th><td><?php echo esc_html($subscription_details['billing_period']); ?></td></tr>
-            <tr>
-                <th>Estado:</th>
-                <td>
-                    <span class="vantagewp-status <?php echo esc_attr($subscription_details['status_class']); ?>">
-                        <?php echo esc_html($subscription_details['status']); ?>
-                    </span>
-                </td>
-            </tr>
-            <tr><th>Próximo pago:</th><td><?php echo esc_html($subscription_details['next_payment']); ?></td></tr>
-            <tr><th>ID Suscripción:</th><td><?php echo esc_html($subscription_details['subscription_id']); ?></td></tr>
-        </table>
     <?php endif; ?>
 </div>

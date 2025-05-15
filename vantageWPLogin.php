@@ -15,8 +15,23 @@ define('VANTAGE_DASHBOARD_URL', 'https://app.vantagewp.io/dashboard');
 define('VANTAGE_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('VANTAGE_PLUGIN_URL', plugin_dir_url(__FILE__));
 
-// Cargar el núcleo del plugin
+// Cargar archivos necesarios primero
 require_once VANTAGE_PLUGIN_DIR . 'includes/class-core.php';
+require_once VANTAGE_PLUGIN_DIR . 'includes/class-admin-panel.php';
+require_once VANTAGE_PLUGIN_DIR . 'includes/class-api-handler.php';
 
 // Inicializar el plugin
-VantageWP_Core::init();
+function vantage_wp_login_init() {
+    // Inicializar el núcleo
+    VantageWP_Core::init();
+    
+    // Inicializar el panel de administración solo si es admin
+    if (is_admin()) {
+        $admin_panel = new VantageWP_Admin_Panel();
+        $admin_panel->init(); // Esto registrará los hooks correctamente
+    }
+}
+add_action('plugins_loaded', 'vantage_wp_login_init');
+
+// Registrar hook de activación
+register_activation_hook(__FILE__, ['VantageWP_Core', 'activate']);
